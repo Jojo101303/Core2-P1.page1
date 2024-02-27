@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homepage</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="#">
+        <p>Creativity<br />Never<br />Die</p>
+      </a>
+      <p>Poems<br />Were abandoned<br />Not Ended<br /></p>
+    </nav>
+    <footer>
+      <div class="socials">
+        <a href="#">The</a>
+        <a href="#">End</a>
+        <a href="#">is</a>
+        <a href="#">not</a>
+        <a href="#">the</a>
+        <a href="#">End</a>
+      </div>
+      <div class="ctas">
+        <a href="https://jojo101303.github.io/Core2-P1.page2/">
+            <button>Begins</button>
+        </a>
+    </div>
+    </footer>
+
+    <div style="height: 75px"></div>
+    <div class="item project-1">
+      <div class="cube-container">
+        <div class="cube">
+          <div class="side front"><p></p></div>
+          <div class="side back"><p></p></div>
+          <div class="side top"><p></p></div>
+          <div class="side bottom"><p></p></div>
+        </div>
+        <div class="cube" style="left: 50%;">
+          <div class="side front"><img src="./assets/compass1.png" alt="" /></div>
+          <div class="side back"><img src="./assets/compass1.png" alt="" /></div>
+          <div class="side top"><img src="./assets/compass2.png" alt="" /></div>
+          <div class="side bottom"><img src="./assets/compass2.png" alt="" /></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item project-2">
+      <div class="cube-container">
+        <div class="cube">
+          <div class="side front"><img src="./assets/Yet.png" alt="" /></div>
+          <div class="side back"><img src="./assets/Yet.png" alt="" /></div>
+          <div class="side top"><img src="./assets/Yet2.png" alt="" /></div>
+          <div class="side bottom"><img src="./assets/Yet2.png" alt="" /></div>
+        </div>
+        <div class="cube" style="left: 50%;">
+          <div class="side front"><img src="./assets/End.png" alt="" /></div>
+          <div class="side back"><img src="./assets/End.png" alt="" /></div>
+          <div class="side top"><img src="./assets/End2.png" alt="" /></div>
+          <div class="side bottom"><img src="./assets/End2.png" alt="" /></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item project-3">
+      <div class="cube-container">
+        <div class="cube">
+            <div class="side front"><img src="./assets/compass1.png" alt="" /></div>
+            <div class="side back"><img src="./assets/compass1.png" alt="" /></div>
+            <div class="side top"><img src="./assets/compass2.png" alt="" /></div>
+            <div class="side bottom"><img src="./assets/compass2.png" alt="" /></div>
+        </div>
+        <div class="cube" style="left: 50%;">
+          <div class="side front"><p></p></div>
+          <div class="side back"><p></p></div>
+          <div class="side top"><p></p></div>
+          <div class="side bottom"><p></p></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div style="height: 100px;"></div>
+    <script>
+      const cubeContainers = document.querySelectorAll('.cube-container');
+      const items = document.querySelectorAll('.item');
+      const projectNames = ["Beginning", "Stories", "The End",];
+
+      function updateCubes(scrollY) {
+        const yRotation = (scrollY / 2) % 360;
+        const scrollOffset = scrollY * 0.25;
+
+        cubeContainers.forEach((container, containerIndex) => {
+          const cubes = container.querySelectorAll('.cube');
+
+          cubes.forEach((cube, cubeIndex) => {
+            let rotationDirection = cubeIndex % 2 === 0 ? 1 : -1;
+            cube.style.transform = `translateZ(100px) rotateX(${yRotation * rotationDirection}deg)`;
+          });
+
+          // Optimized text position update
+          const frontBackTextPosition = 50 + scrollOffset;
+          const topBottomTextPosition = 50 - scrollOffset;
+
+          container.querySelectorAll('.front p, .back p').forEach(p => {
+            p.style.left = `${frontBackTextPosition}%`;
+          });
+
+          container.querySelectorAll('.top p, .bottom p').forEach(p => {
+            p.style.left = `${topBottomTextPosition}%`;
+          });
+        });
+      }
+
+      function populateText() {
+        items.forEach((item, itemIndex) => {
+          const projectName = projectNames[itemIndex % projectNames.length];
+          const sides = item.querySelectorAll('.side p');
+          const textContent = Array(50).fill(projectName).join("&nbsp;&nbsp;&nbsp;&nbsp;");
+
+          sides.forEach(side => {
+            side.innerHTML = textContent;
+          });
+        });
+      }
+
+      window.onload = function() {
+        populateText();
+        updateCubes(window.scrollY);
+      };
+
+      let ticking = false;
+      document.addEventListener('scroll', function(e) {
+        if (!ticking) {
+          window.requestAnimationFrame(function() {
+            updateCubes(window.scrollY);
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    </script>
+  </body>
+</html>
